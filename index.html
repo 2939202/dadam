@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>다담 가을 사진 공모전</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap">
+<style>
+:root{
+  --ink:#000;
+  --forest:#000;
+  --gold:#000;
+  --gold-d:#000;
+  --red:#000;
+  --mute:#000;
+  --line:rgba(0,0,0,.18);
+  --tint:rgba(0,0,0,.05);
+  --paper:#ffffff;
+  --serif:"Noto Sans KR","Malgun Gothic",sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background: linear-gradient(-45deg, #ffffff, #f0f2f5, #e0e5ec, #ffffff);
+  background-size: 400% 400%;
+  animation: waveBG 15s ease infinite;
+  color:var(--ink);
+  font-family:"Noto Sans KR","Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+  font-size:15px;line-height:1.7;word-break:keep-all;
+}
+
+@keyframes waveBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+b{font-weight:700}
+main{max-width:640px;margin:0 auto;padding:48px 20px 80px}
+
+h1{
+  font-family:var(--serif);font-weight:900;color:var(--forest);
+  font-size:clamp(26px,7.4vw,38px);line-height:1.3;text-align:center;
+  margin:0 0 44px;letter-spacing:-.01em;
+}
+h1::after{content:"";display:block;width:44px;height:3px;background:var(--gold);margin:16px auto 0}
+
+/* 손으로 그린 듯한 박스 */
+.box{
+  border:4px solid rgba(0,0,0,.35);
+  border-radius:18px 8px 22px 10px / 10px 20px 8px 16px;
+  padding:30px 22px 26px;
+  position:relative;
+  background: var(--paper);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+}
+.box-title{
+  position:absolute;top:-19px;left:50%;transform:translateX(-50%);
+  background:var(--paper);padding:0 14px;margin:0;
+  font-family:var(--serif);font-size:23px;font-weight:900;color:var(--forest);white-space:nowrap;
+}
+.note{text-align:center;font-size:16px;margin:0 0 22px}
+.note b{font-weight:900;font-size:18px}
+.req{text-align:center;font-size:12px;color:var(--mute);margin:0 0 22px}
+
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--red);margin-left:5px;vertical-align:3px}
+
+.row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:6px}
+label.field{display:block;margin-bottom:8px;min-width:0}
+label.field span{display:block;font-size:13px;font-weight:700;color:var(--forest);margin-bottom:2px}
+input[type=text]{
+  width:100%;font:inherit;font-size:15px;color:var(--ink);
+  border:0;border-bottom:2px solid var(--ink);border-radius:0;
+  padding:4px 2px;background:transparent;
+}
+input[type=text]:focus{outline:none;border-bottom-color:var(--gold)}
+
+u{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+.warn b{font-weight:900}
+.warn{font-size:14px;font-weight:700;color:var(--red);text-align:center;margin:20px 0 10px}
+
+.drop{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;cursor:pointer;min-height:240px;
+  border:2px dashed var(--forest);border-radius:6px;
+  padding:20px 12px;margin-bottom:12px;background:rgba(0,0,0,.05);
+}
+.drop:hover,.drop.over{background:rgba(0,0,0,.1)}
+.drop:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.drop b{display:block;font-size:18px;color:var(--forest)}
+.drop small{color:var(--mute);font-size:14px}
+.previews{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;margin-bottom:14px}
+.previews:empty{display:none}
+.pv{position:relative;min-width:0}
+.pv img{display:block;width:100%;aspect-ratio:1;object-fit:cover;border-radius:3px;background:#eee}
+.pv .cap{font-size:12px;color:var(--mute);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pv button{
+  position:absolute;top:4px;right:4px;border:0;border-radius:2px;
+  background:rgba(0,0,0,.72);color:#fff;font:inherit;font-size:12px;
+  padding:3px 8px;cursor:pointer;
+}
+.count{font-size:14px;color:var(--mute);margin:0 0 14px;text-align:right}
+
+fieldset.ai{border:0;margin:0 0 20px;padding:0}
+fieldset.ai legend{font-size:13px;font-weight:700;color:var(--forest);padding:0;margin-bottom:6px}
+fieldset.ai label{display:inline-flex;align-items:center;gap:6px;font-size:15px;cursor:pointer}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.ainote{font-size:13px;font-weight:700;margin:0 0 8px}
+.opts{display:flex;flex-wrap:wrap;justify-content:space-evenly;gap:10px 12px}
+fieldset.ai input{width:18px;height:18px;margin:0;accent-color:var(--forest)}
+
+.send{
+  display:block;width:100%;font:inherit;font-size:17px;font-weight:700;
+  color:#fff;background:var(--forest);border:0;border-radius:4px;
+  padding:15px;cursor:pointer;
+}
+.send:disabled{cursor:default}
+.send:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.msg{margin:14px 0 0;font-size:15px;text-align:center;min-height:1.5em}
+.msg.err{color:var(--red);font-weight:700}
+.msg.ok{color:var(--forest);font-weight:700}
+
+h2{
+  font-family:var(--serif);font-weight:900;color:var(--forest);
+  font-size:clamp(25px,6vw,30px);margin:72px 0 18px;text-align:center;
+}
+h2 .tri{vertical-align:-3px;margin-right:8px}
+h2 .pre{font-size:16px;font-weight:400;color:var(--ink)}
+
+/* 점 목록 */
+ul.dots{list-style:none;margin:0 auto;padding:0;max-width:440px;text-align:center}
+ul.dots li{margin-bottom:10px}
+ul.dots li::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--gold);margin-right:9px;vertical-align:middle;position:relative;top:-1px}
+
+.sched li{font-size:16px}
+.sched b{color:var(--forest)}
+.hl{font-weight:900}
+
+.prize{margin:24px auto 0;padding:0;list-style:none;max-width:340px}
+.prize li{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--line)}
+.prize li span:last-child{font-family:var(--serif);font-weight:900;font-size:19px}
+.prize li.top{font-weight:900}
+.prize li.top span:last-child{font-size:25px}
+.sub{text-align:center;color:var(--mute);font-size:14px;margin:10px 0 0}
+
+.rules{font-size:14px}
+.rules b{color:var(--forest)}
+
+.contact{text-align:center;font-size:16px}
+.contact p{margin:0 0 6px}
+.contact .mail{margin-bottom:1.7em}
+.contact a{color:var(--forest);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+
+/* 입장 시 안내 팝업 */
+.modal{
+  position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.55);
+  display:flex;align-items:center;justify-content:center;padding:20px;
+}
+.modal[hidden]{display:none}
+.panel{
+  background:var(--paper);width:100%;max-width:440px;max-height:90vh;overflow:auto;
+  border-top:5px solid var(--gold);border-radius:6px;padding:24px 22px 22px;
+}
+.panel h3{font-family:var(--serif);font-size:22px;font-weight:900;color:var(--forest);text-align:center;margin:0 0 18px}
+.panel ul{margin-bottom:22px}
+
+@media (max-width:420px){
+  main{padding-top:36px}
+  .box{padding:28px 16px 22px}
+}
+@media (max-width:340px){
+  .row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<main>
+
+<h1>다담 가을 사진 공모전</h1>
+
+<!-- 제출 -->
+<form id="f" class="box" novalidate>
+  <h3 class="box-title">제출 양식</h3>
+  <p class="note"><b>3장 이하</b>로 사진 파일 제출</p>
+
+  <div class="row">
+    <label class="field"><span>학번</span><input type="text" id="sid" inputmode="numeric" autocomplete="off"></label>
+    <label class="field"><span>이름</span><input type="text" id="name" autocomplete="name"></label>
+  </div>
+
+  <p class="warn">※ <b>AI 보정 사진</b>은 <u>원본 파일</u>도 함께 <u>제출</u> ※</p>
+
+  <div class="drop" id="drop" role="button" tabindex="0" aria-label="사진 선택하기">
+    <div class="previews" id="previews"></div>
+    <b>사진 선택하기</b>
+    <small>누르거나 드래그</small>
+  </div>
+  <input type="file" id="file" accept="image/*" multiple hidden>
+  <p class="count" id="count">0 / 3장</p>
+
+  <fieldset class="ai">
+    <legend class="sr">AI 활용 여부</legend>
+    <p class="ainote" id="ainote" hidden>※ AI 활용 시엔 원본 파일을 필수로 제출해야 함</p>
+    <div class="opts">
+      <label><input type="radio" name="ai" value="AI 활용 함">AI 활용 함</label>
+      <label><input type="radio" name="ai" value="AI 활용 하지 않음">AI 활용 하지 않음</label>
+    </div>
+  </fieldset>
+
+  <button class="send off" id="send" type="submit" aria-disabled="true">제출하기</button>
+  <p class="msg" id="msg" role="status"></p>
+</form>
+
+<!-- 유의사항 -->
+<h2><svg class="tri" viewBox="0 0 26 24" width="28" height="26" aria-hidden="true"><path d="M13 2.5 24 21.5H2Z" fill="none" stroke="#000" stroke-width="2.4" stroke-linejoin="round"/><path d="M13 9.5v6" stroke="#000" stroke-width="2.4" stroke-linecap="round"/><circle cx="13" cy="18.2" r="1.3" fill="#000"/></svg>유의사항!!</h2>
+<ul class="dots rules" id="rules">
+  <li><b>AI 보정</b> 자체는 가능하지만 <u>합성</u>, <u>대상 제거</u>, <u>생성</u> 등<br>보정 수준을 벗어나면 출품이 제한되며 이는 수동 보정도 <b>동일</b>합니다.</li>
+  <li>다른 공모전에 냈던 작품은 <b>중복 출품 불가</b>입니다.</li>
+  <li>저작권, 초상권을 <u>침해한 작품은</u> 출품할 수 없습니다.</li>
+  <li>작품의 <b>저작권은 제출자</b>에게 있습니다.</li>
+  <li>제출된 사진은 동아리 홍보 등에 쓰일 수 있으며,<br>상업적으로는 쓰지 않습니다.</li>
+</ul>
+
+<!-- 일정 -->
+<h2><span class="pre">공모전 </span>일정</h2>
+<ul class="dots sched">
+  <li><b>촬영물 제출</b> <span class="hl">10월 27일(화) ~ 11월 21일(토)</span></li>
+  <li><b>투표</b> 11월 말, 교내 강의실에서 <u>현장 투표</u>로 선정 예정</li>
+</ul>
+<ul class="prize">
+  <li class="top"><span>대상 (1인)</span><span>5만원</span></li>
+  <li><span>우수상 (1인)</span><span>1만원</span></li>
+  <li><span>장려상 (2인)</span><span>인당 5천원</span></li>
+</ul>
+<p class="sub">〈상금은 상품권으로 지급될 예정입니다.〉</p>
+
+<!-- 문의 -->
+<h2><span class="pre">다담 입부 신청 등, 세부 </span>문의</h2>
+<div class="contact">
+  <p class="mail">이메일 <a href="mailto:spot7kingdom@gmail.com">spot7kingdom@gmail.com</a></p>
+  <p>김국현 회장 <a href="tel:01047397565">010-4739-7565</a></p>
+  <p>오찬영 홍보부장 <a href="tel:01087353446">010-8735-3446</a></p>
+</div>
+
+</main>
+
+<!-- 입장 시 무조건 뜨는 안내 팝업 -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mt">
+  <div class="panel">
+    <h3 id="mt">제출 전 확인 사항</h3>
+    <ul class="dots rules" id="mlist"></ul>
+    <button class="send" id="ok" type="button">확인했습니다</button>
+  </div>
+</div>
+
+<script>
+/* ▼ Apps Script 웹앱 배포 후 나온 URL을 여기에 붙여넣기 */
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbyGX1tv967geW5Vl-kas1XbByHCTKwuJwcBVaCLafu3SY1DqCA4Q-gHiulhqoMf04CM/exec";
+
+const MAX_FILES = 3;
+const MAX_MB = 10;
+const deadline = new Date("2026-11-21T23:59:59+09:00");
+
+const $ = id => document.getElementById(id);
+const fileInput = $("file"), drop = $("drop"), previews = $("previews"),
+      count = $("count"), msg = $("msg"), sendBtn = $("send");
+let files = [], urls = [];
+
+function say(t, cls){ msg.textContent = t; msg.className = "msg " + (cls||""); }
+function fmt(b){ return b > 1048576 ? (b/1048576).toFixed(1)+"MB" : Math.round(b/1024)+"KB"; }
+function aiValue(){ const r = document.querySelector('input[name="ai"]:checked'); return r ? r.value : ""; }
+
+function missing(){
+  const m = [];
+  if (!$("sid").value.trim()) m.push("학번");
+  if (!$("name").value.trim()) m.push("이름");
+  if (files.length < 1 || files.length > MAX_FILES) m.push("사진 1~3장");
+  if (!aiValue()) m.push("AI 활용 여부");
+  return m;
+}
+function refresh(){
+  const ok = missing().length === 0;
+  sendBtn.classList.toggle("off", !ok);
+  sendBtn.setAttribute("aria-disabled", String(!ok));
+}
+
+function render(){
+  urls.forEach(u=>URL.revokeObjectURL(u)); urls = [];
+  previews.innerHTML = "";
+  files.forEach((f,i)=>{
+    const u = URL.createObjectURL(f); urls.push(u);
+    const wrap = document.createElement("div"); wrap.className = "pv";
+    const img = document.createElement("img"); img.src = u; img.alt = f.name;
+    const rm = document.createElement("button"); rm.type = "button"; rm.textContent = "삭제";
+    rm.onclick = ev=>{ ev.stopPropagation(); files.splice(i,1); render(); };
+    const cap = document.createElement("div"); cap.className = "cap";
+    cap.textContent = f.name + " (" + fmt(f.size) + ")";
+    wrap.append(img, rm, cap); previews.append(wrap);
+  });
+  count.textContent = files.length + " / " + MAX_FILES + "장";
+  refresh();
+}
+
+function add(picked){
+  say("");
+  for (const f of picked){
+    if (!f.type.startsWith("image/")) { say("사진 파일만 올릴 수 있습니다.","err"); continue; }
+    if (f.size > MAX_MB*1048576) { say(f.name+" 파일이 "+MAX_MB+"MB를 넘습니다.","err"); continue; }
+    if (files.length >= MAX_FILES) { say("사진은 최대 "+MAX_FILES+"장까지 제출할 수 있습니다.","err"); break; }
+    files.push(f);
+  }
+  render();
+}
+
+drop.addEventListener("click", ()=>fileInput.click());
+drop.addEventListener("keydown", e=>{ if (e.key==="Enter" || e.key===" "){ e.preventDefault(); fileInput.click(); } });
+fileInput.addEventListener("change", ()=>{ add([...fileInput.files]); fileInput.value=""; });
+["dragover","dragenter"].forEach(e=>drop.addEventListener(e,ev=>{ev.preventDefault();drop.classList.add("over")}));
+["dragleave","drop"].forEach(e=>drop.addEventListener(e,ev=>{ev.preventDefault();drop.classList.remove("over")}));
+drop.addEventListener("drop", ev=>add([...ev.dataTransfer.files]));
+
+["name","sid"].forEach(id=>$(id).addEventListener("input", refresh));
+document.querySelectorAll('input[name="ai"]').forEach(r=>r.addEventListener("change", ()=>{ $("ainote").hidden = aiValue() !== "AI 활용 함"; refresh(); }));
+
+const toB64 = f => new Promise((res,rej)=>{
+  const r = new FileReader();
+  r.onload = ()=>res(r.result.split(",")[1]);
+  r.onerror = ()=>rej(new Error("읽기 실패"));
+  r.readAsDataURL(f);
+});
+
+$("f").addEventListener("submit", async e=>{
+  e.preventDefault();
+  if (sendBtn.disabled) return;
+
+  const m = missing();
+  if (m.length){
+    say("필수 항목이 비어 있습니다: " + m.join(", ") + ".", "err");
+    if (!$("sid").value.trim()) $("sid").focus();
+    else if (!$("name").value.trim()) $("name").focus();
+    else if (files.length < 1) drop.focus();
+    else document.querySelector('input[name="ai"]').focus();
+    return;
+  }
+  if (new Date() > deadline){ say("제출 기간이 끝났습니다.","err"); return; }
+  if (ENDPOINT.indexOf("http") !== 0){ say("제출 주소가 설정되지 않았습니다. 관리자에게 문의해 주세요.","err"); return; }
+
+  sendBtn.disabled = true; say("보내는 중입니다. 창을 닫지 마세요.");
+  try{
+    const payload = {
+      name: $("name").value.trim(), sid: $("sid").value.trim(), ai: aiValue(),
+      files: await Promise.all(files.map(async f=>({name:f.name,type:f.type,data:await toB64(f)})))
+    };
+    await fetch(ENDPOINT,{method:"POST",mode:"no-cors",body:JSON.stringify(payload)});
+    files = []; $("f").reset(); $("ainote").hidden = true; render();
+    say("제출이 완료되었습니다. 감사합니다.","ok");
+  }catch(err){
+    say("제출에 실패했습니다. 잠시 후 다시 시도하거나 문의 번호로 연락해 주세요.","err");
+  }
+  sendBtn.disabled = false;
+});
+
+/* 입장 시 안내 팝업: 확인 버튼을 눌러야만 닫힘 */
+const modal = $("modal");
+document.querySelectorAll("#rules li").forEach(li=>$("mlist").append(li.cloneNode(true)));
+document.body.style.overflow = "hidden";
+$("ok").addEventListener("click", ()=>{ modal.hidden = true; document.body.style.overflow = ""; });
+$("ok").focus();
+</script>
+</body>
+</html>
