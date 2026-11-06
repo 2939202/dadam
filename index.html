@@ -37,7 +37,7 @@ h1{
 }
 
 /* 링크 공유 */
-.share{text-align:center;margin:-24px 0 42px}
+.share{text-align:center;margin:-24px 0 50px}
 .swrap{position:relative;display:inline-block}
 .share button{
   position:relative;display:inline-flex;align-items:center;justify-content:center;
@@ -47,9 +47,9 @@ h1{
 .share button:hover{background:var(--tint)}
 .share button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
 .tip{
-  position:absolute;left:calc(100% + 8px);top:50%;transform:translateY(-50%);
-  background:#000;color:#fff;font-size:12px;font-weight:700;line-height:1;white-space:nowrap;
-  padding:6px 9px;border-radius:3px;opacity:0;pointer-events:none;transition:opacity .15s;
+  position:absolute;left:50%;top:calc(100% + 4px);transform:translateX(-50%);
+  background:rgba(0,0,0,.6);color:#fff;font-size:12px;font-weight:700;line-height:1;white-space:nowrap;
+  padding:5px 8px;border-radius:3px;opacity:0;pointer-events:none;transition:opacity .15s;
 }
 .tip.show{opacity:1}
 @media (hover:hover){
@@ -202,7 +202,7 @@ h2.ct{margin-top:124px}
       <svg id="icoShare" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="#000" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.8 15.7 6.2M8.3 13.2l7.4 4.6"/></svg>
       <svg id="icoOk" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="#000" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M4.5 12.5 9.5 17.5 19.5 6.5"/></svg>
     </button>
-    <span class="tip" id="tip" role="status" aria-live="polite">링크 복사</span>
+    <span class="tip" id="tip" role="status" aria-live="polite">복사</span>
   </span>
 </div>
 
@@ -250,7 +250,7 @@ h2.ct{margin-top:124px}
 </ul>
 
 <!-- 일정 -->
-<h2><span class="pre">공모전 </span>일정</h2>
+<h2>공모전 일정</h2>
 <ul class="dots sched">
   <li><b>촬영물 제출</b> <span class="hl">10월 27일(화) ~ 11월 21일(토)</span></li>
   <li><b>투표</b> 11월 말, 교내 강의실에서 <u>현장 투표</u>로 선정 예정</li>
@@ -403,9 +403,9 @@ function flash(t){
   $("icoShare").style.display = "none"; $("icoOk").style.display = "";
   clearTimeout(shareTimer);
   shareTimer = setTimeout(()=>{
-    tip.classList.remove("show"); tip.textContent = "링크 복사";
+    tip.classList.remove("show"); tip.textContent = "복사";
     $("icoShare").style.display = ""; $("icoOk").style.display = "none";
-  }, 2200);
+  }, 1200);
 }
 async function copyLink(){
   try { await navigator.clipboard.writeText(SHARE_URL); return true; } catch(e){}
@@ -424,7 +424,7 @@ $("share").addEventListener("click", async ()=>{
       return;
     } catch(e){ if (e && e.name === "AbortError") return; }
   }
-  if (await copyLink()) flash("복사되었습니다");
+  if (await copyLink()) flash("복사됨");
   else window.prompt("링크를 복사해 주십시오", SHARE_URL);
 });
 
