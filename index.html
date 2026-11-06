@@ -23,21 +23,10 @@
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{
-  margin:0;
-  background: linear-gradient(-45deg, #ffffff, #f0f2f5, #e0e5ec, #ffffff);
-  background-size: 400% 400%;
-  animation: waveBG 15s ease infinite;
-  color:var(--ink);
+  margin:0;background:var(--paper);color:var(--ink);
   font-family:"Noto Sans KR","Malgun Gothic","Apple SD Gothic Neo",sans-serif;
   font-size:15px;line-height:1.7;word-break:keep-all;
 }
-
-@keyframes waveBG {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
 b{font-weight:700}
 main{max-width:640px;margin:0 auto;padding:48px 20px 80px}
 
@@ -54,8 +43,6 @@ h1::after{content:"";display:block;width:44px;height:3px;background:var(--gold);
   border-radius:18px 8px 22px 10px / 10px 20px 8px 16px;
   padding:30px 22px 26px;
   position:relative;
-  background: var(--paper);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
 }
 .box-title{
   position:absolute;top:-19px;left:50%;transform:translateX(-50%);
