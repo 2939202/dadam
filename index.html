@@ -38,6 +38,7 @@ h1{
 
 /* 링크 공유 */
 .share{text-align:center;margin:-24px 0 42px}
+.swrap{position:relative;display:inline-block}
 .share button{
   position:relative;display:inline-flex;align-items:center;justify-content:center;
   color:var(--ink);background:transparent;border:1px solid rgba(0,0,0,.35);border-radius:4px;
@@ -45,15 +46,21 @@ h1{
 }
 .share button:hover{background:var(--tint)}
 .share button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.tip{
+  position:absolute;left:calc(100% + 8px);top:50%;transform:translateY(-50%);
+  background:#000;color:#fff;font-size:12px;font-weight:700;line-height:1;white-space:nowrap;
+  padding:6px 9px;border-radius:3px;opacity:0;pointer-events:none;transition:opacity .15s;
+}
+.tip.show{opacity:1}
+@media (hover:hover){
+  .swrap:hover .tip,.share button:focus-visible ~ .tip{opacity:1}
+}
 
 /* 맨 아래 가을 풍경 */
 .scene{
   display:block;width:100%;height:auto;margin:0;
   -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 30%);
   mask-image:linear-gradient(to bottom,transparent 0,#000 30%);
-}
-@media (max-width:700px){
-  .scene{height:230px;object-fit:cover;object-position:50% 100%}
 }
 
 /* 손으로 그린 듯한 박스 */
@@ -190,11 +197,13 @@ h2.ct{margin-top:124px}
 <h1>다담 가을 사진 공모전</h1>
 
 <div class="share">
-  <button type="button" id="share" aria-label="링크 공유" title="링크 공유">
-    <svg id="icoShare" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="#000" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.8 15.7 6.2M8.3 13.2l7.4 4.6"/></svg>
-    <svg id="icoOk" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="#000" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M4.5 12.5 9.5 17.5 19.5 6.5"/></svg>
-    <span class="sr" id="shareLabel" aria-live="polite"></span>
-  </button>
+  <span class="swrap">
+    <button type="button" id="share" aria-label="링크 공유">
+      <svg id="icoShare" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="#000" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.8 15.7 6.2M8.3 13.2l7.4 4.6"/></svg>
+      <svg id="icoOk" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="#000" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M4.5 12.5 9.5 17.5 19.5 6.5"/></svg>
+    </button>
+    <span class="tip" id="tip" role="status" aria-live="polite">링크 복사</span>
+  </span>
 </div>
 
 <!-- 제출 -->
@@ -384,14 +393,19 @@ $("f").addEventListener("submit", async e=>{
   sendBtn.textContent = "제출하기"; sendBtn.disabled = false;
 });
 
-/* 링크 공유: 모바일은 공유 창, PC 등은 바로 복사 */
+/* 링크 공유: 모바일은 공유 창, PC는 바로 복사 (마우스를 올리면 "링크 복사" 안내) */
 const SHARE_URL = "https://2939202.github.io/dadam/";
+const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+  (navigator.maxTouchPoints > 1 && window.matchMedia("(pointer: coarse)").matches);
 let shareTimer;
 function flash(t){
-  const l = $("shareLabel"); l.textContent = t;
+  const tip = $("tip"); tip.textContent = t; tip.classList.add("show");
   $("icoShare").style.display = "none"; $("icoOk").style.display = "";
   clearTimeout(shareTimer);
-  shareTimer = setTimeout(()=>{ l.textContent = ""; $("icoShare").style.display = ""; $("icoOk").style.display = "none"; }, 2200);
+  shareTimer = setTimeout(()=>{
+    tip.classList.remove("show"); tip.textContent = "링크 복사";
+    $("icoShare").style.display = ""; $("icoOk").style.display = "none";
+  }, 2200);
 }
 async function copyLink(){
   try { await navigator.clipboard.writeText(SHARE_URL); return true; } catch(e){}
@@ -404,13 +418,13 @@ async function copyLink(){
   } catch(e){ return false; }
 }
 $("share").addEventListener("click", async ()=>{
-  if (navigator.share && window.matchMedia("(pointer: coarse)").matches){
+  if (isMobile && navigator.share){
     try {
       await navigator.share({ title:"다담 가을 사진 공모전", text:"다담 가을 사진 공모전 사진 제출", url:SHARE_URL });
       return;
     } catch(e){ if (e && e.name === "AbortError") return; }
   }
-  if (await copyLink()) flash("링크가 복사되었습니다");
+  if (await copyLink()) flash("복사되었습니다");
   else window.prompt("링크를 복사해 주십시오", SHARE_URL);
 });
 
