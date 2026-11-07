@@ -181,16 +181,21 @@ ul.dots li::before{content:"";display:inline-block;width:7px;height:7px;border-r
 
 /* 굵은 글씨 뒤에 밝은 바탕: 가장자리는 흐리게 번지게(페이드). 그림자라 글자 폭·정렬엔 영향 없음 */
 /* 아래로 갈수록 배경이 진해져 같은 흰빛도 더 튀므로, 위치별로 세기를 낮춰 고르게 보이게 */
+/* 단색 바탕 없이, 가운데서 바깥으로 완전히 투명해지는 빛 한 겹만.
+   회색 배경의 누런 기를 상쇄하도록 아주 살짝 차가운 흰색 사용 */
 #rules b,.sched b,.sched .hl,.sched .vote,.prize li span:last-child,h2 .glow{
-  --ga:.5;
-  background:rgba(255,255,255,var(--ga));border-radius:6px;
-  box-shadow:0 0 8px 4px rgba(255,255,255,var(--ga));
-  -webkit-box-decoration-break:clone;box-decoration-break:clone;
+  --ga:.7;
+  position:relative;z-index:0;
 }
-.sched b,.sched .hl,.sched .vote{--ga:.4}
-.prize li span:last-child{--ga:.3}
-h2 .glow{--ga:.35;box-shadow:0 0 12px 6px rgba(255,255,255,var(--ga))}
-h2.ct .glow{--ga:.22}
+#rules b::before,.sched b::before,.sched .hl::before,.sched .vote::before,.prize li span:last-child::before,h2 .glow::before{
+  content:"";position:absolute;inset:-5px -10px;z-index:-1;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(250,251,253,var(--ga)) 0,rgba(250,251,253,calc(var(--ga) * .6)) 50%,rgba(250,251,253,0) 100%);
+}
+.sched b,.sched .hl,.sched .vote{--ga:.55}
+.prize li span:last-child{--ga:.45}
+h2 .glow{--ga:.5}
+h2 .glow::before{inset:-10px -22px}
+h2.ct .glow{--ga:.35}
 
 /* ※ 대신 쓰는 작은 안내 아이콘 */
 .ico{display:inline-block;width:15px;height:15px;vertical-align:-2px;margin-right:5px}
