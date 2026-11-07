@@ -39,7 +39,11 @@ body{
   font-size:15px;line-height:1.7;word-break:keep-all;
 }
 b{font-weight:700}
-main{max-width:640px;margin:0 auto;padding:48px 20px 16px;position:relative;z-index:1}
+main{
+  max-width:640px;margin:0 auto;padding:48px 20px 34px;position:relative;z-index:1;
+  /* 글이 모여 있는 가운데만 아주 살짝 밝게 */
+  background:radial-gradient(ellipse 60% 55% at 50% 72%,rgba(255,255,255,.4),rgba(255,255,255,0) 100%);
+}
 
 h1{
   font-family:var(--serif);font-weight:900;color:var(--forest);
@@ -48,7 +52,7 @@ h1{
 }
 
 /* 링크 공유: 일정·상금까지 다 본 뒤에 친구에게 알리는 자리 */
-.share{text-align:center;margin:30px 0 0}
+.share{text-align:center;margin:44px 0 0}
 .swrap{position:relative;display:inline-block}
 .share button{
   position:relative;display:inline-flex;align-items:center;justify-content:center;gap:7px;
@@ -71,7 +75,7 @@ h1{
 /* 맨 아래 가을 풍경 */
 /* 투명하게 사라지는 윗부분을 문의 영역 밑으로 끌어올려 문의 바로 아래에 풀밭이 보이게 */
 .scene{
-  display:block;width:100%;height:auto;margin:clamp(-140px,-12vw,-40px) 0 0;
+  display:block;width:100%;height:auto;margin:clamp(-80px,-6vw,-16px) 0 0;
   -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 30%);
   mask-image:linear-gradient(to bottom,transparent 0,#000 30%);
 }
@@ -145,8 +149,6 @@ fieldset.ai label{display:inline-flex;align-items:center;gap:6px;font-size:15px;
 .opts{display:flex;flex-wrap:wrap;justify-content:space-evenly;gap:10px 12px}
 fieldset.ai input{width:18px;height:18px;margin:0;accent-color:var(--forest)}
 
-.privacy{text-align:center;font-size:12px;line-height:1.6;margin:0 0 12px}
-
 .send{
   display:block;width:100%;font:inherit;font-size:17px;font-weight:700;
   color:#fff;background:var(--forest);border:0;border-radius:4px;
@@ -204,7 +206,18 @@ h2.ct{margin-top:124px}
   border-top:5px solid var(--gold);border-radius:6px;padding:24px 22px 22px;
 }
 .panel h3{font-family:var(--serif);font-size:22px;font-weight:900;color:var(--forest);text-align:center;margin:0 0 18px}
-.panel ul{margin-bottom:22px}
+.panel ul{margin-bottom:24px;font-size:15px}
+.panel ul li{margin-bottom:8px}
+.ok{
+  display:block;width:100%;height:50px;margin:0;
+  font:inherit;font-size:16px;font-weight:700;letter-spacing:.02em;
+  color:#fff;background:#111;border:0;border-radius:8px;outline:none;
+  cursor:pointer;-webkit-tap-highlight-color:transparent;
+  transition:background .15s,transform .1s;
+}
+.ok:hover{background:#333}
+.ok:active{transform:scale(.98)}
+.ok:focus,.ok:focus-visible{outline:none;box-shadow:none}
 
 @media (max-width:420px){
   main{padding-top:36px}
@@ -251,8 +264,6 @@ h2.ct{margin-top:124px}
     </div>
   </fieldset>
 
-  <p class="privacy">※ 제출 시 개인정보 수집에 동의한 것으로 보며, 수상 연락에만 쓰고 공모전 종료 후 파기합니다.</p>
-
   <button class="send off" id="send" type="submit" aria-disabled="true">제출하기</button>
   <p class="msg" id="msg" role="status"></p>
 </form>
@@ -260,11 +271,12 @@ h2.ct{margin-top:124px}
 <!-- 유의사항 -->
 <h2><svg class="tri" viewBox="0 0 26 24" width="28" height="26" aria-hidden="true"><path d="M13 2.5 24 21.5H2Z" fill="none" stroke="#000" stroke-width="2.4" stroke-linejoin="round"/><path d="M13 9.5v6" stroke="#000" stroke-width="2.4" stroke-linecap="round"/><circle cx="13" cy="18.2" r="1.3" fill="#000"/></svg>유의사항!!</h2>
 <ul class="dots rules" id="rules">
-  <li><b>AI 보정</b> 자체는 가능하지만 합성, 대상 제거, 생성 등<br>보정 수준을 벗어나면 출품이 제한되며 이는 수동 보정도 <b>동일</b>합니다.</li>
-  <li>다른 공모전에 냈던 작품은 <b>중복 출품 불가</b>입니다.</li>
-  <li>저작권, 초상권을 침해한 작품은 출품할 수 없습니다.</li>
-  <li>작품의 <b>저작권은 제출자</b>에게 있습니다.</li>
-  <li>제출된 사진은 동아리 홍보 등에 쓰일 수 있으며,<br>상업적으로는 쓰지 않습니다.</li>
+  <li><b>AI 보정</b>은 가능, 합성·제거·생성은 불가</li>
+  <li>수동으로 보정해도 <b>같은 기준</b> 적용</li>
+  <li>다른 공모전 출품작은 <b>중복 출품 불가</b></li>
+  <li>저작권·초상권 <b>침해 작품</b>은 출품 불가</li>
+  <li>작품의 <b>저작권</b>은 모두 제출자에게 있음</li>
+  <li>동아리 홍보에만 쓰고 <b>상업적 이용 없음</b></li>
 </ul>
 
 <!-- 일정 -->
@@ -309,8 +321,14 @@ h2.ct{margin-top:124px}
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mt">
   <div class="panel">
     <h3 id="mt">제출 전 확인 사항</h3>
-    <ul class="dots rules" id="mlist"></ul>
-    <button class="send" id="ok" type="button">확인했습니다</button>
+    <ul class="dots">
+      <li>보정은 가능, <b>합성·제거·생성</b>은 불가</li>
+      <li>다른 공모전 출품작은 불가</li>
+      <li>저작권·초상권 침해작은 불가</li>
+      <li>저작권은 제출자, 홍보에만 사용</li>
+      <li>개인정보는 연락용, 종료 후 파기</li>
+    </ul>
+    <button class="ok" id="ok" type="button">확인했습니다</button>
   </div>
 </div>
 
@@ -420,9 +438,9 @@ async function call(body, tries = 3){
 }
 
 /* 파일 하나를 4MB 조각으로 나눠 Drive에 이어 올림 → 요청마다 몇 초라 실행 시간 제한에 안 걸림 */
-async function uploadFile(f, idx, who, onBytes){
+async function uploadFile(f, idx, who, ai, onBytes){
   const type = mimeOf(f);
-  const { id } = await call({ action:"init", who, index:idx+1, name:f.name, type, size:f.size });
+  const { id } = await call({ action:"init", who, ai, index:idx+1, name:f.name, type, size:f.size });
   for (let start = 0; start < f.size; start += CHUNK){
     const part = f.slice(start, Math.min(start + CHUNK, f.size));
     const out = await call({ action:"chunk", id, start, total:f.size, type, data: await toB64(part) });
@@ -475,7 +493,7 @@ $("f").addEventListener("submit", async e=>{
   try{
     const ids = [];
     for (let i = 0; i < files.length; i++){
-      ids.push(await uploadFile(files[i], i, who, n=>{ sent += n; progress(); }));
+      ids.push(await uploadFile(files[i], i, who, ai, n=>{ sent += n; progress(); }));
     }
     await call({ action:"submit", who, phone, ai, fileIds:ids });
     files = []; $("f").reset(); $("ainote").hidden = true; render();
@@ -548,10 +566,9 @@ scene.src = scene.dataset.src;
 
 /* 입장 시 안내 팝업: 확인 버튼을 눌러야만 닫힘 */
 const modal = $("modal");
-document.querySelectorAll("#rules li").forEach(li=>$("mlist").append(li.cloneNode(true)));
 document.body.style.overflow = "hidden";
 $("ok").addEventListener("click", ()=>{ modal.hidden = true; document.body.style.overflow = ""; });
-$("ok").focus();
+$("ok").focus({ preventScroll:true });
 </script>
 </body>
 </html>
