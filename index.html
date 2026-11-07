@@ -121,10 +121,12 @@ u{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:
 .drop:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .drop b{display:block;font-size:18px;color:var(--forest)}
 .drop small{color:var(--mute);font-size:14px}
+.drop small.spec{display:block;font-size:12px;margin-top:4px}
 .previews{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;margin-bottom:14px}
 .previews:empty{display:none}
 .pv{position:relative;min-width:0}
 .pv img{display:block;width:100%;aspect-ratio:1;object-fit:cover;border-radius:3px;background:#eee}
+.pv .noimg{display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:1;border-radius:3px;background:#eee;font-size:12px;color:var(--mute)}
 .pv .cap{font-size:12px;color:var(--mute);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pv button{
   position:absolute;top:4px;right:4px;border:0;border-radius:2px;
@@ -140,6 +142,8 @@ fieldset.ai label{display:inline-flex;align-items:center;gap:6px;font-size:15px;
 .ainote{font-size:13px;font-weight:700;margin:0 0 8px}
 .opts{display:flex;flex-wrap:wrap;justify-content:space-evenly;gap:10px 12px}
 fieldset.ai input{width:18px;height:18px;margin:0;accent-color:var(--forest)}
+
+.privacy{text-align:center;font-size:12px;line-height:1.6;margin:0 0 12px}
 
 .send{
   display:block;width:100%;font:inherit;font-size:17px;font-weight:700;
@@ -166,9 +170,15 @@ ul.dots{list-style:none;margin:0 auto;padding:0;max-width:440px;text-align:cente
 ul.dots li{margin-bottom:10px}
 ul.dots li::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--gold);margin-right:9px;vertical-align:middle;position:relative;top:-1px}
 
+/* 유의사항: 목록 덩어리는 가운데, 글은 왼쪽 정렬 (줄바꿈돼도 점 뒤로 맞춰짐) */
+ul.dots.rules{text-align:left}
+ul.dots.rules li{position:relative;padding-left:16px}
+ul.dots.rules li::before{position:absolute;left:0;top:.62em;margin:0}
+
 .sched li{font-size:16px}
 .sched b{color:var(--forest)}
 .hl{font-weight:900}
+.tbd{font-size:14px}
 
 .prize{margin:24px auto 0;padding:0;list-style:none;max-width:340px}
 .prize li{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--line)}
@@ -233,24 +243,27 @@ h2.ct{margin-top:124px}
     <label class="field"><span>전화번호</span><input type="tel" id="phone" inputmode="tel" autocomplete="tel"></label>
   </div>
 
-  <p class="warn">※ <b>AI 보정 사진</b>은 <u>원본 파일</u>도 함께 <u>제출</u> ※</p>
+  <p class="warn">※ <b>AI 보정 사진</b>은 <u>원본 파일</u>도 함께 제출 ※</p>
 
-  <div class="drop" id="drop" role="button" tabindex="0" aria-label="사진을 선택하시오">
+  <div class="drop" id="drop" role="button" tabindex="0" aria-label="사진을 선택하세요">
     <div class="previews" id="previews"></div>
-    <b>사진을 선택하시오</b>
+    <b>사진을 선택하세요</b>
     <small>누르거나 드래그</small>
+    <small class="spec">JPG · PNG · HEIC 등 원본 그대로, 장당 50MB까지</small>
   </div>
-  <input type="file" id="file" accept="image/*" multiple hidden>
+  <input type="file" id="file" accept="image/*,.heic,.heif" multiple hidden>
   <p class="count" id="count">0 / 3장</p>
 
   <fieldset class="ai">
     <legend class="sr">AI 활용 여부</legend>
-    <p class="ainote" id="ainote" hidden>※ AI 활용 시엔 원본 파일을 필수로 제출해야 함</p>
+    <p class="ainote" id="ainote" hidden>※ AI를 활용했다면 원본 파일도 꼭 함께 제출해 주세요</p>
     <div class="opts">
-      <label><input type="radio" name="ai" value="AI 활용 함">AI 활용 함</label>
-      <label><input type="radio" name="ai" value="AI 활용 하지 않음">AI 활용 하지 않음</label>
+      <label><input type="radio" name="ai" value="AI 활용함">AI 활용함</label>
+      <label><input type="radio" name="ai" value="AI 활용하지 않음">AI 활용하지 않음</label>
     </div>
   </fieldset>
+
+  <p class="privacy">※ 제출 시 개인정보 수집에 동의한 것으로 보며, 수상 연락에만 쓰고 공모전 종료 후 파기합니다.</p>
 
   <button class="send off" id="send" type="submit" aria-disabled="true">제출하기</button>
   <p class="msg" id="msg" role="status"></p>
@@ -259,18 +272,18 @@ h2.ct{margin-top:124px}
 <!-- 유의사항 -->
 <h2><svg class="tri" viewBox="0 0 26 24" width="28" height="26" aria-hidden="true"><path d="M13 2.5 24 21.5H2Z" fill="none" stroke="#000" stroke-width="2.4" stroke-linejoin="round"/><path d="M13 9.5v6" stroke="#000" stroke-width="2.4" stroke-linecap="round"/><circle cx="13" cy="18.2" r="1.3" fill="#000"/></svg>유의사항!!</h2>
 <ul class="dots rules" id="rules">
-  <li><b>AI 보정</b> 자체는 가능하지만 <u>합성</u>, <u>대상 제거</u>, <u>생성</u> 등<br>보정 수준을 벗어나면 출품이 제한되며 이는 수동 보정도 <b>동일</b>합니다.</li>
+  <li><b>AI 보정</b> 자체는 가능하지만 합성, 대상 제거, 생성 등 보정 수준을 벗어나면 출품이 제한되며, 이는 수동 보정도 <b>동일</b>합니다.</li>
   <li>다른 공모전에 냈던 작품은 <b>중복 출품 불가</b>입니다.</li>
-  <li>저작권, 초상권을 <u>침해한 작품은</u> 출품할 수 없습니다.</li>
+  <li>저작권, 초상권을 침해한 작품은 출품할 수 없습니다.</li>
   <li>작품의 <b>저작권은 제출자</b>에게 있습니다.</li>
-  <li>제출된 사진은 동아리 홍보 등에 쓰일 수 있으며,<br>상업적으로는 쓰지 않습니다.</li>
+  <li>제출된 사진은 동아리 홍보 등에 쓰일 수 있으며, 상업적으로는 쓰지 않습니다.</li>
 </ul>
 
 <!-- 일정 -->
 <h2>공모전 일정</h2>
 <ul class="dots sched">
   <li><b>촬영물 제출</b> <span class="hl">10월 27일(화) ~ 11월 21일(토)</span></li>
-  <li><b>투표</b> 11월 말, 교내 강의실에서 <u>현장 투표</u>로 선정 예정</li>
+  <li><b>투표</b> 11월 말, 교내 강의실에서 현장 투표로 선정 예정 <span class="tbd">(정확한 일시·강의실은 추후 공지)</span></li>
 </ul>
 <ul class="prize">
   <li class="top"><span>대상 (1인)</span><span>5만원</span></li>
@@ -307,13 +320,23 @@ h2.ct{margin-top:124px}
 const ENDPOINT = "https://script.google.com/macros/s/AKfycbyGX1tv967geW5Vl-kas1XbByHCTKwuJwcBVaCLafu3SY1DqCA4Q-gHiulhqoMf04CM/exec";
 
 const MAX_FILES = 3;
-const MAX_MB = 10;
+const MAX_MB = 50;
+const CHUNK = 4 * 1024 * 1024;   /* 4MB씩 나눠 보냄 (256KB의 배수여야 함) */
 const deadline = new Date("2026-11-21T23:59:59+09:00");
+
+const IMG_EXT = /\.(jpe?g|png|heic|heif|webp|gif|bmp|tiff?|dng)$/i;
+const EXT_TYPE = { jpg:"image/jpeg", jpeg:"image/jpeg", png:"image/png", heic:"image/heic", heif:"image/heif", webp:"image/webp", dng:"image/x-adobe-dng" };
+function isImage(f){ return (f.type || "").startsWith("image/") || IMG_EXT.test(f.name); }
+function mimeOf(f){
+  if (f.type) return f.type;
+  const ext = (f.name.split(".").pop() || "").toLowerCase();
+  return EXT_TYPE[ext] || "application/octet-stream";
+}
 
 const $ = id => document.getElementById(id);
 const fileInput = $("file"), drop = $("drop"), previews = $("previews"),
       count = $("count"), msg = $("msg"), sendBtn = $("send");
-let files = [], urls = [];
+let files = [], urls = [], busy = false;
 
 function say(t, cls){ msg.textContent = t; msg.className = "msg " + (cls||""); }
 function fmt(b){ return b > 1048576 ? (b/1048576).toFixed(1)+"MB" : Math.round(b/1024)+"KB"; }
@@ -340,8 +363,10 @@ function render(){
     const u = URL.createObjectURL(f); urls.push(u);
     const wrap = document.createElement("div"); wrap.className = "pv";
     const img = document.createElement("img"); img.src = u; img.alt = f.name;
+    /* HEIC 등 브라우저가 못 그리는 형식은 미리보기 대신 안내 (파일은 그대로 제출됨) */
+    img.onerror = ()=>{ const ph = document.createElement("div"); ph.className = "noimg"; ph.textContent = "미리보기 없음"; img.replaceWith(ph); };
     const rm = document.createElement("button"); rm.type = "button"; rm.textContent = "삭제";
-    rm.onclick = ev=>{ ev.stopPropagation(); files.splice(i,1); render(); };
+    rm.onclick = ev=>{ ev.stopPropagation(); if (busy) return; files.splice(i,1); render(); };
     const cap = document.createElement("div"); cap.className = "cap";
     cap.textContent = f.name + " (" + fmt(f.size) + ")";
     wrap.append(img, rm, cap); previews.append(wrap);
@@ -351,9 +376,10 @@ function render(){
 }
 
 function add(picked){
+  if (busy) return;
   say("");
   for (const f of picked){
-    if (!f.type.startsWith("image/")) { say("사진 파일만 올릴 수 있습니다.","err"); continue; }
+    if (!isImage(f)) { say("사진 파일만 올릴 수 있습니다.","err"); continue; }
     if (f.size > MAX_MB*1048576) { say(f.name+" 파일이 "+MAX_MB+"MB를 넘습니다.","err"); continue; }
     if (files.length >= MAX_FILES) { say("사진은 최대 "+MAX_FILES+"장까지 제출할 수 있습니다.","err"); break; }
     files.push(f);
@@ -361,26 +387,68 @@ function add(picked){
   render();
 }
 
-drop.addEventListener("click", ()=>fileInput.click());
-drop.addEventListener("keydown", e=>{ if (e.key==="Enter" || e.key===" "){ e.preventDefault(); fileInput.click(); } });
+drop.addEventListener("click", ()=>{ if (!busy) fileInput.click(); });
+drop.addEventListener("keydown", e=>{ if ((e.key==="Enter" || e.key===" ") && !busy){ e.preventDefault(); fileInput.click(); } });
 fileInput.addEventListener("change", ()=>{ add([...fileInput.files]); fileInput.value=""; });
 ["dragover","dragenter"].forEach(e=>drop.addEventListener(e,ev=>{ev.preventDefault();drop.classList.add("over")}));
 ["dragleave","drop"].forEach(e=>drop.addEventListener(e,ev=>{ev.preventDefault();drop.classList.remove("over")}));
 drop.addEventListener("drop", ev=>add([...ev.dataTransfer.files]));
 
 ["sid","phone"].forEach(id=>$(id).addEventListener("input", refresh));
-document.querySelectorAll('input[name="ai"]').forEach(r=>r.addEventListener("change", ()=>{ $("ainote").hidden = aiValue() !== "AI 활용 함"; refresh(); }));
+document.querySelectorAll('input[name="ai"]').forEach(r=>r.addEventListener("change", ()=>{ $("ainote").hidden = aiValue() !== "AI 활용함"; refresh(); }));
 
-const toB64 = f => new Promise((res,rej)=>{
+const toB64 = blob => new Promise((res,rej)=>{
   const r = new FileReader();
-  r.onload = ()=>res(r.result.split(",")[1]);
-  r.onerror = ()=>rej(new Error("읽기 실패"));
-  r.readAsDataURL(f);
+  r.onload = ()=>res(r.result.split(",")[1] || "");
+  r.onerror = ()=>rej(new Error("파일 읽기 실패"));
+  r.readAsDataURL(blob);
 });
+
+/* 서버 호출: 응답을 실제로 읽어서 성공/실패를 판단. 네트워크 오류는 최대 3번 재시도 */
+async function call(body, tries = 3){
+  for (let i = 1; ; i++){
+    try{
+      const res = await fetch(ENDPOINT, { method:"POST", body:JSON.stringify(body) });
+      if (!res.ok) throw new Error("서버 응답 " + res.status);
+      const out = await res.json();
+      if (!out.ok){ const e = new Error(out.error || "서버 오류"); e.fatal = true; throw e; }
+      return out;
+    }catch(err){
+      if (err.fatal || i >= tries) throw err;
+      await new Promise(r=>setTimeout(r, 1500 * i));
+    }
+  }
+}
+
+/* 파일 하나를 4MB 조각으로 나눠 Drive에 이어 올림 → 요청마다 몇 초라 실행 시간 제한에 안 걸림 */
+async function uploadFile(f, idx, who, onBytes){
+  const type = mimeOf(f);
+  const { id } = await call({ action:"init", who, index:idx+1, name:f.name, type, size:f.size });
+  for (let start = 0; start < f.size; start += CHUNK){
+    const part = f.slice(start, Math.min(start + CHUNK, f.size));
+    const out = await call({ action:"chunk", id, start, total:f.size, type, data: await toB64(part) });
+    onBytes(part.size);
+    if (out.done) return out.fileId;
+  }
+  throw new Error(f.name + " 업로드가 끝나지 않았습니다");
+}
+
+function setSending(text){
+  let t = $("sendTxt");
+  if (!t){
+    sendBtn.textContent = "";
+    const sp = document.createElement("i"); sp.className = "spin";
+    t = document.createElement("span"); t.id = "sendTxt";
+    sendBtn.append(sp, t);
+  }
+  t.textContent = text;
+}
+
+window.addEventListener("beforeunload", e=>{ if (busy){ e.preventDefault(); e.returnValue = ""; } });
 
 $("f").addEventListener("submit", async e=>{
   e.preventDefault();
-  if (sendBtn.disabled) return;
+  if (busy) return;
 
   const m = missing();
   if (m.length){
@@ -394,19 +462,29 @@ $("f").addEventListener("submit", async e=>{
   if (new Date() > deadline){ say("제출 기간이 끝났습니다.","err"); return; }
   if (ENDPOINT.indexOf("http") !== 0){ say("제출 주소가 설정되지 않았습니다. 관리자에게 문의해 주세요.","err"); return; }
 
-  sendBtn.disabled = true; say("보내는 중입니다. 창을 닫지 마세요.");
-  sendBtn.textContent = ""; const sp = document.createElement("i"); sp.className = "spin"; sendBtn.append(sp, "제출 중");
+  busy = true; sendBtn.disabled = true;
+  const who = $("sid").value.trim(), phone = $("phone").value.trim(), ai = aiValue();
+  const total = files.reduce((s,f)=>s + f.size, 0) || 1;
+  let sent = 0;
+  const progress = ()=>{
+    const p = Math.min(99, Math.floor(sent / total * 100));
+    setSending("제출 중 " + p + "%");
+    say("사진을 올리는 중입니다 (" + p + "%). 창을 닫지 마세요.");
+  };
+  progress();
+
   try{
-    const payload = {
-      who: $("sid").value.trim(), phone: $("phone").value.trim(), ai: aiValue(),
-      files: await Promise.all(files.map(async f=>({name:f.name,type:f.type,data:await toB64(f)})))
-    };
-    await fetch(ENDPOINT,{method:"POST",mode:"no-cors",body:JSON.stringify(payload)});
+    const ids = [];
+    for (let i = 0; i < files.length; i++){
+      ids.push(await uploadFile(files[i], i, who, n=>{ sent += n; progress(); }));
+    }
+    await call({ action:"submit", who, phone, ai, fileIds:ids });
     files = []; $("f").reset(); $("ainote").hidden = true; render();
     say("제출이 완료되었습니다. 감사합니다.","ok");
   }catch(err){
-    say("제출에 실패했습니다. 잠시 후 다시 시도하거나 문의 번호로 연락해 주세요.","err");
+    say("제출에 실패했습니다 (" + err.message + "). 잠시 후 다시 시도하거나 문의 번호로 연락해 주세요.","err");
   }
+  busy = false;
   sendBtn.textContent = "제출하기"; sendBtn.disabled = false;
 });
 
@@ -462,7 +540,7 @@ $("share").addEventListener("click", async ()=>{
   const data = { title:"다담 가을 사진 공모전", text:"다담 가을 사진 공모전 사진 제출", url:SHARE_URL };
   if (isMobile && navigator.share && await nativeShare(data)) return;
   if (await copyLink()) flash("복사됨");
-  else window.prompt("링크를 복사해 주십시오", SHARE_URL);
+  else window.prompt("링크를 복사해 주세요", SHARE_URL);
 });
 
 /* 풍경 사진: 페이지가 열린 뒤에만 불러옴 */
