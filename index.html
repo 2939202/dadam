@@ -4,6 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>다담 가을 사진 공모전</title>
+<meta name="description" content="다담 사진 동아리 공모전 제출 페이지">
+<meta property="og:type" content="website">
+<meta property="og:title" content="다담 가을 사진 공모전">
+<meta property="og:description" content="사진 제출 페이지">
+<meta property="og:url" content="https://2939202.github.io/dadam/">
+<meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap">
@@ -274,7 +280,7 @@ h2.ct{margin-top:124px}
 
 </main>
 
-<img class="scene" src="https://2939202.github.io/dadam/autumn.jpg" alt="" aria-hidden="true" loading="lazy" onerror="this.remove()">
+<img class="scene" data-src="https://2939202.github.io/dadam/autumn.jpg" alt="" aria-hidden="true" onerror="this.remove()">
 
 <!-- 입장 시 무조건 뜨는 안내 팝업 -->
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mt">
@@ -427,6 +433,10 @@ $("share").addEventListener("click", async ()=>{
   if (await copyLink()) flash("복사됨");
   else window.prompt("링크를 복사해 주십시오", SHARE_URL);
 });
+
+/* 풍경 사진: 페이지가 열린 뒤에만 불러옴 */
+const scene = document.querySelector(".scene");
+scene.src = scene.dataset.src;
 
 /* 입장 시 안내 팝업: 확인 버튼을 눌러야만 닫힘 */
 const modal = $("modal");
